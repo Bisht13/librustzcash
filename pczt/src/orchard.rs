@@ -164,6 +164,12 @@ pub struct Spend {
     /// - This is required by the Signer for creating `spend_auth_sig`, and may be used to
     ///   validate `rk`.
     /// - After `zkproof` / `spend_auth_sig` has been set, this can be redacted.
+    /// - Exposed publicly so external signers (e.g. joint-FROST recombined `ask`)
+    ///   can produce a matching `redpallas::Signature<SpendAuth>` for
+    ///   [`crate::roles::signer::Signer::apply_orchard_signature`] without going
+    ///   through `Signer::sign_orchard` (which requires a single concrete
+    ///   `SpendAuthorizingKey`).
+    #[getset(get = "pub")]
     pub(crate) alpha: Option<[u8; 32]>,
 
     /// The ZIP 32 derivation path at which the spending key can be found for the note
